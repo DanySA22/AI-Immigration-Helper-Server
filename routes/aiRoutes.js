@@ -20,7 +20,7 @@ router.get('/', (req, res, next) => {
 
 router.post('/input', (req, res) => {
     try {
-        res.json("User created inputr")
+        res.json("User created input")
 } catch (error) {
         console.log(error)
     }
