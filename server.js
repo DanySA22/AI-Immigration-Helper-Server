@@ -2,12 +2,14 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const knex = require('./database/index')
-require('dotenv').config()
-const {PORT} = process.env
 const ai = require('./routes/aiRoutes')
 const authent = require('./routes/authentRoutes')
 const history = require('./routes/historyRoutes')
 const mongoose = require('./database/mongoDB')
+const {Configuration, OpenAIApi} = require('openai')
+require('dotenv').config()
+const {PORT, OPENAI_KEY} = process.env
+
 
 app.use(express.json())
 app.use(cors())

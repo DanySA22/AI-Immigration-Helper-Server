@@ -2,11 +2,27 @@ const express = require('express')
 const router = express.Router()
 const knex = require('../database/index')
 const OutputUser = require('../models/outputUser')
+const openai = require('../controllers/openai')
 
-
-router.post('/input', (req, res) => {
+router.post('/input', async (req, res) => {
+    
     try {
-        res.json("User created input")
+        const questionToProcess = req.body.question
+        console.log(questionToProcess)
+        const responseAI = await openai.chat.completions.create(
+            {  //I need to change later the gpt model to version 4; increase the number of tokens max; and 
+                //set that friendly tone in the interaction; also uploaded file analysis (check in the bookmarked
+                //openai node github repo)
+                model: "gpt-3.5-turbo",
+                messages: [{role: 'user', content: questionToProcess}],
+                // prompt: questionToProcess,
+                max_tokens: 150,
+                temperature: 0.7,
+
+            }
+        )
+        console.log(responseAI.choices[0].message)
+        res.json(responseAI.choices[0].message.content)
 } catch (error) {
         console.log(error)
     }
