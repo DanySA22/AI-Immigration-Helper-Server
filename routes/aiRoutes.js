@@ -4,21 +4,6 @@ const knex = require('../database/index')
 const OutputUser = require('../models/outputUser')
 
 
-//This fist route is just for testing functionality
-router.get('/', (req, res, next) => {
-    try {
-        const selectUsers = async () => {
-            const usersTotal = await knex('users').select()
-            console.log(usersTotal)
-            res.json(usersTotal)
-            next()
-    }
-    selectUsers()
-} catch (error) {
-        console.log(error)
-    }
-})
-
 router.post('/input', (req, res) => {
     try {
         res.json("User created input")
