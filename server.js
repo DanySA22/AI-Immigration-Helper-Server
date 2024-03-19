@@ -7,7 +7,7 @@ const {PORT} = process.env
 const ai = require('./routes/aiRoutes')
 const authent = require('./routes/authentRoutes')
 const history = require('./routes/historyRoutes')
-
+const mongoose = require('./database/mongoDB')
 
 app.use(express.json())
 app.use(cors())

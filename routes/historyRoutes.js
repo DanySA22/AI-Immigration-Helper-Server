@@ -1,11 +1,13 @@
 const express = require('express')
 const router = express.Router()
 const knex = require('../database/index')
+const OutputUser = require('../models/outputUser')
 
 //this route pull from Atlas based in user id
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
-        res.json("Signup form backend endpoint")
+        const outputLatest = await OutputUser.find({userId: 2})
+        res.json(outputLatest)
 } catch (error) {
         console.log('Error trying to retrieve history data:', error)
     }

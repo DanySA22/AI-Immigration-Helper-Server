@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const knex = require('../database/index')
+const OutputUser = require('../models/outputUser')
 
 
 //This fist route is just for testing functionality
@@ -34,9 +35,20 @@ router.get('/output', (req, res) => {
     }
 })
 
-router.post('/output/save/:id', (req, res) => {
+
+router.post('/output/save/:id', async (req, res) => {
     try {
-        res.json("Posting the user output on MongoDB-Atlas")
+        //req.body should have userId and openAiOutput data
+        
+        const userNewDocument = new OutputUser(req.body)
+        console.log(userNewDocument)
+        const postedData = await userNewDocument.save()
+       
+        //this create an instance of the userRelatedData model; you are creating a new document
+        //where the properties are automatically mapped from the request body to the corresponding field in the
+        // schema
+        console.log(postedData)
+        res.status(201).json(postedData)
 } catch (error) {
         console.log(error)
     }
