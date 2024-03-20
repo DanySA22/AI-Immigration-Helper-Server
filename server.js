@@ -13,7 +13,7 @@ const {PORT, OPENAI_KEY} = process.env
 
 app.use(express.json())
 app.use(cors())
-app.use(express.static('./public/images-video'))
+app.use(express.static('./assets/public_files'))
 app.use('/ai', ai)
 app.use('/authent', authent)
 app.use('/history', history)

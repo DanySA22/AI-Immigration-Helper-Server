@@ -3,10 +3,16 @@ const router = express.Router()
 const knex = require('../database/index')
 const OutputUser = require('../models/outputUser')
 const openai = require('../controllers/openai')
+const fs = require('fs')
+const multer = require('multer')
+const upload = multer({dest: '../assets/public_files'})
+const path = require('path')
+
 
 router.post('/input', async (req, res) => {
     
     try {
+        
         const questionToProcess = req.body.question
         console.log(questionToProcess)
         const responseAI = await openai.chat.completions.create(
@@ -25,16 +31,18 @@ router.post('/input', async (req, res) => {
         res.json(responseAI.choices[0].message.content)
 } catch (error) {
         console.log(error)
-    }
+    } 
 })
 
-router.get('/output', (req, res) => {
-    try {
-        res.json("Retrieving chatgpt output")
-} catch (error) {
-        console.log( error)
-    }
-})
+//I think this endpoint is not necessary we just use the response object of the previous endpoint to populate
+//the output area on the frontend 
+// router.get('/output', (req, res) => {
+//     try {
+//         res.json("Retrieving chatgpt output")
+// } catch (error) {
+//         console.log( error)
+//     }
+// })
 
 
 router.post('/output/save/:id', async (req, res) => {
