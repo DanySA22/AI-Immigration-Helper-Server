@@ -36,20 +36,21 @@ router.post('/login', async (req, res) => {
     try {
         const { username, password, } = req.body
         if (!username || !password) {
-          res.status(400).send("Missing properties on the request body")
+          return res.status(400).send("Missing properties on the request body")
         } else {
-        const user = await knex(" users").where({username}).first()
+        const user = await knex("users").where({username}).first()
           if (!user) {
-            res.status(400).json('User not found')
+            return res.status(400).json('User not found')
           }
-        const match = await bcrypt.compare(password, user.hashed_password)
+        const match = await bcrypt.compare(password, user.password)
         if (!match) {
-          res.status(400).json('Invalid password')
+          return res.status(400).json('Invalid password')
         } else{
         const userIdentification = {id: user.userId}
         const token = jwt.sign(userIdentification, SECRET_KEY, {expiresIn: '1h'} )  //generating a JSON web token for a user after succesfully authentication
         //where the payload include user id; we also have the secret key to sign the token
-        res.status(200).json({token: token})
+        console.log(userIdentification)
+        return res.status(200).json({token: token})
       }}
 } catch (error) {
     console.log('Error trying to post the login form data:', error)

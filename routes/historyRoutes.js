@@ -12,6 +12,7 @@ router.get('/', passport.authenticate('jwt', {session:false}), async (req, res) 
         //and a attached to the req object. This user object include info about the user id,e tc that we add when we sign
         //the JWT
         //because we are using this approach we don't need to use the dynamic id on endpoint
+        
         const outputLatest = await OutputUser.find({userId: userID})
         res.json(outputLatest)
 } catch (error) {
