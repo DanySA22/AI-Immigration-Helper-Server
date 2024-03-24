@@ -2,6 +2,11 @@ const express = require('express')
 const router = express.Router()
 const knex = require('../database/index')
 const bcrypt = require('bcrypt')
+const passport = require('passport')
+require('../controllers/passport')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
+const {SECRET_KEY} = process.env
 
 const saltRounds = 10
 
@@ -33,10 +38,19 @@ router.post('/login', async (req, res) => {
         if (!username || !password) {
           res.status(400).send("Missing properties on the request body")
         } else {
-        //Here I should compare the req.body with all the similar duo on DB; and if 
-        //there is a match retrieve a web token to the frontend (this is done with Passport.js, not do it for now)
-          res.status(200).json(req.body)
-        }
+        const user = await knex(" users").where({username}).first()
+          if (!user) {
+            res.status(400).json('User not found')
+          }
+        const match = await bcrypt.compare(password, user.hashed_password)
+        if (!match) {
+          res.status(400).json('Invalid password')
+        } else{
+        const userIdentification = {id: user.userId}
+        const token = jwt.sign(userIdentification, SECRET_KEY, {expiresIn: '1h'} )  //generating a JSON web token for a user after succesfully authentication
+        //where the payload include user id; we also have the secret key to sign the token
+        res.status(200).json({token: token})
+      }}
 } catch (error) {
     console.log('Error trying to post the login form data:', error)
     res.status(500).json({ error: "Internal server error" });

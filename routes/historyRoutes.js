@@ -2,27 +2,22 @@ const express = require('express')
 const router = express.Router()
 const knex = require('../database/index')
 const OutputUser = require('../models/outputUser')
+const passport = require('passport')
+require('../controllers/passport')
 
-//this route pull from Atlas based in user id
-router.get('/:id', async (req, res) => {
+//this route pull from MongoDB based in user id
+router.get('/', passport.authenticate('jwt', {session:false}), async (req, res) => {
     try {
-        const outputLatest = await OutputUser.find({userId: 2})
+        const userID = req.user.userId //passport middleware construct a user object from the decoded payload 
+        //and a attached to the req object. This user object include info about the user id,e tc that we add when we sign
+        //the JWT
+        //because we are using this approach we don't need to use the dynamic id on endpoint
+        const outputLatest = await OutputUser.find({userId: userID})
         res.json(outputLatest)
 } catch (error) {
         console.log('Error trying to retrieve history data:', error)
     }
 })
 
-//I will implement download functionality on the React side because I think will be extra work doing it on backend
-//there is a library that can help me with that: npm install file-saver
-//I will also add search and filtering on React
-
-// router.get('/:id/download', (req, res) => {
-//     try {
-//         res.json("Login form backend endpoint")
-// } catch (error) {
-//         console.log('Error trying to retrieve history data to be downloaded:', error)
-//     }
-// })
 
 module.exports = router;

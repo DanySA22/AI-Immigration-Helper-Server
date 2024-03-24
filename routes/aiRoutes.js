@@ -3,10 +3,8 @@ const router = express.Router()
 const knex = require('../database/index')
 const OutputUser = require('../models/outputUser')
 const openai = require('../controllers/openai')
-const fs = require('fs')
-const multer = require('multer')
-const upload = multer({dest: '../assets/public_files'})
-const path = require('path')
+const passport = require('passport')
+require('../controllers/passport')
 
 
 router.post('/input', async (req, res) => {
@@ -17,8 +15,7 @@ router.post('/input', async (req, res) => {
         console.log(questionToProcess)
         const responseAI = await openai.chat.completions.create(
             {  //I need to change later the gpt model to version 4; increase the number of tokens max; and 
-                //set that friendly tone in the interaction; also uploaded file analysis (check in the bookmarked
-                //openai node github repo)
+                //set that friendly tone in the interaction)
                 model: "gpt-3.5-turbo",
                 messages: [{role: 'user', content: questionToProcess}],
                 // prompt: questionToProcess,
@@ -34,21 +31,10 @@ router.post('/input', async (req, res) => {
     } 
 })
 
-//I think this endpoint is not necessary we just use the response object of the previous endpoint to populate
-//the output area on the frontend 
-// router.get('/output', (req, res) => {
-//     try {
-//         res.json("Retrieving chatgpt output")
-// } catch (error) {
-//         console.log( error)
-//     }
-// })
-
-
-router.post('/output/save/:id', async (req, res) => {
+router.post('/output/save', passport.authenticate('jwt', {session:false}), async (req, res) => {
     try {
-        //req.body should have userId and openAiOutput data
-        
+        //req.body should have userId and openAiOutput data (this second one came from the client)
+        req.body.userId = req.user.userId
         const userNewDocument = new OutputUser(req.body)
         console.log(userNewDocument)
         const postedData = await userNewDocument.save()
