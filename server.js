@@ -10,7 +10,7 @@ const {Configuration, OpenAIApi} = require('openai')
 require('dotenv').config()
 const {PORT, OPENAI_KEY} = process.env
 const passport = require('passport')
-require('./controllers/passport')
+require('./authentication/passport')
 
 
 app.use(passport.initialize())
