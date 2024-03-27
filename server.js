@@ -9,8 +9,11 @@ const mongoose = require('./database/mongoDB')
 const {Configuration, OpenAIApi} = require('openai')
 require('dotenv').config()
 const {PORT, OPENAI_KEY} = process.env
+const passport = require('passport')
+require('./authentication/passport')
 
 
+app.use(passport.initialize())
 app.use(express.json())
 app.use(cors())
 app.use(express.static('./assets/public_files'))
@@ -18,9 +21,5 @@ app.use('/ai', ai)
 app.use('/authent', authent)
 app.use('/history', history)
 
-
-//I need to add this Atlas connection string in some part of my code:
-//mongodb+srv://DanielSA:rootroot@aiimmigrationhelper.murmvz4.mongodb.net/?retryWrites=true&w=majority&appName=AIImmigrationHelper
-//mongodb+srv://DanielSA:<password>@aiimmigrationhelper.murmvz4.mongodb.net/
 
 app.listen(PORT)
