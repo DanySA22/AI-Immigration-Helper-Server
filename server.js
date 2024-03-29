@@ -6,12 +6,10 @@ const ai = require('./routes/aiRoutes')
 const authent = require('./routes/authentRoutes')
 const history = require('./routes/historyRoutes')
 const mongoose = require('./database/mongoDB')
-const {Configuration, OpenAIApi} = require('openai')
 require('dotenv').config()
-const {PORT, OPENAI_KEY} = process.env
+const {PORT} = process.env
 const passport = require('passport')
 require('./authentication/passport')
-
 
 app.use(passport.initialize())
 app.use(express.json())
