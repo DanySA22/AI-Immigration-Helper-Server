@@ -16,7 +16,7 @@ passport.use(new JwtStrategy(options, async (jwt_payload, done) => {
      try {
         console.log(jwt_payload)
         const user = await knex("users")
-        .where({'userId': jwt_payload.id})  //Sub is where you store user id on the jwt payload
+        .where({'userId': jwt_payload.id})  
         .first()
         
         if (user) {
