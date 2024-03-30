@@ -19,4 +19,8 @@ app.use('/ai', ai)
 app.use('/authent', authent)
 app.use('/history', history)
 
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+  });
+  
 app.listen(PORT)
