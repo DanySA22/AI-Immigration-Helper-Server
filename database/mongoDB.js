@@ -1,7 +1,7 @@
+require('dotenv').config()
 const mongoose = require('mongoose')
 
-
-const mongodbURL = 'mongodb://127.0.0.1:27017/AI-Immigration-Helper';
+const mongodbURL = process.env.MONGODB_URL;
 
 const connectToDB = async () => {
     try {
