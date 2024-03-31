@@ -34,7 +34,6 @@ exports.login = async (req, res) => {
     try {
       console.log(5)
         const { username, password } = req.body
-        console.log(username, password)
         if (!username || !password) {
           return res.status(400).send("Missing properties on the request body")
         } else {
