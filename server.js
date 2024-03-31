@@ -20,7 +20,7 @@ app.use('/authent', authent)
 app.use('/history', history)
 
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.send('Hello BrainStation!');
   });
   
 app.listen(PORT)
