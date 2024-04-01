@@ -2,7 +2,6 @@
 + [Project Title](#project-title)
    + [Overview](#overview)
       + [Application target problem and benefits](#application-target-problem-and-benefits)
-      + [Screnshots Sample](#screenshots-samples)
       + [Features](#features-and-user-instructions)
    + [Implementation](#implementation)
       + [Tech Stack](#tech-stack) 
@@ -17,12 +16,6 @@ AI Immigration Helper
 ## Overview
 
 This app is an Artificial Intelligence assistant for Canadian immigration legal process preparation facilitating and making faster that endeavor. It also works as an educational source on how to efficiently go through the learning of Canadian immigration processes.
-
-### Screenshots Samples
-
-![Home Page](./ReadmeImages/HomePage.jpg)
-
-![Educational Page](./ReadmeImages/EducationalPage.jpg)
 
 ### Application target problem and benefits
 
